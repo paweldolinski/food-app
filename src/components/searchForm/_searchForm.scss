@@ -1,0 +1,40 @@
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__form {
+    display: flex;
+    align-items: center;
+  }
+
+  &__input {
+    border: none;
+    width: 200px;
+    background: transparent;
+    border-bottom: solid white;
+    color: white;
+    font-size: 16px;
+    transition: box-shadow .3s ease-out;
+    text-align: center;
+    cursor: pointer;
+    padding: 4px;
+    transition: 0.3s;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.5);
+      transform: scale(1.1);
+      transition: 0.3s;
+    }
+
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
+
+  &__icon {
+    width: 25px;
+    transform: rotate(-94deg);
+  }
+}
