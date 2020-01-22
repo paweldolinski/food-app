@@ -13,6 +13,9 @@ export default function MyProvider(props) {
   const [isModal, setIsModal] = useState(false)
   const [modalObj, setModalObj] = useState({
     label: '',
+    healthLabels: '',
+    ingredients: '',
+    yield: '',
     totalNutrients: ''
   })
 
@@ -35,17 +38,19 @@ export default function MyProvider(props) {
   }
 
   const deleteLike = (obj) => {
-    obj.bookmarked = false
+    obj.bookmarked = false;
     const newArr = likeArr.filter(item => item.id !== obj.id)
     setLikeArr(newArr)
   }
 
   const openModal = (id) => {
-    data.filter(recipe => recipe.id === id).map(item => {
-      setModalObj({
-        label: item.recipe.label,
-        totalNutrients: item.recipe.totalNutrients
-      })
+    const item = data.filter(recipe => recipe.id === id)
+    setModalObj({
+      label: item[0].recipe.label,
+      totalNutrients: item[0].recipe.totalNutrients,
+      healthLabels: item[0].recipe.healthLabels,
+      ingredients: item[0].recipe.ingredientLines,
+      yield: item[0].recipe.yield,
     })
     document.body.classList.add('modal-open');
     setIsModal(true)
@@ -60,18 +65,25 @@ export default function MyProvider(props) {
     const getRecipes = () => {
       const id = '9514057f'
       const key = "f72dc3e10937598d0f8a923a00094316"
-      const searchUrl = `https://api.edamam.com/search?q=${query}&app_id=${id}&app_key=${key}`;
+      const searchUrl = `https://api.edamam.com/search?q=${query}&app_id=${id}&app_key=${key}&count=100`;
       setIsLoading(true)
 
       fetch(searchUrl)
         .then(response => response.json())
         .then(recipes => {
+          const getProteins = (recipe) => {
+            return recipe.proteins = parseInt(recipe.recipe.totalNutrients.PROCNT.quantity, 10)
+          }
+
+          recipes.hits.map(item => {
+            return getProteins(item)
+          })
           setData(recipes.hits)
           setIsLoading(false)
-
         })
     }
     getRecipes()
+
   }, [query])
 
   return (

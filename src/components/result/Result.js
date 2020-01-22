@@ -1,38 +1,33 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { MyRecipesContext } from '../../context/MyRecipesContext';
-import Chart from '../chart/Chart';
-import Heart from '../heart/Heart'
+import FullHeartIcon from '../../assets/img/heart-full.svg';
+import HeartIcon from '../../assets/img/heart.svg';
 
 
-export default function Result({ image, label, healthLabels, recipeObj }) {
+export default function Result({ image, label, recipeObj, vegeterian }) {
 
-  const { addToLike, isModal, openModal, likeArr } = useContext(MyRecipesContext)
+  const { addToLike, openModal } = useContext(MyRecipesContext)
 
   return (
     <div className="result">
       <div className="result__wrapper">
         <div className="result__img-wrapper">
-          <img src={image} alt={label} />
-          <div className="result__heart">
-            <Heart likeList={likeArr} />
+          <img className="results__img" src={image} alt={label} />
+          <div className="result__vegeterian">
+            {vegeterian ? "Vegeterian" : null}
+          </div>
+          <div className="result__heart-wrapper">
+            <img className="result__heart" src={recipeObj.bookmarked ? FullHeartIcon : HeartIcon} onClick={() => addToLike(recipeObj)} alt="heart icon" />
           </div>
         </div>
         <div className="result__info">
           <div className="result__labels-wrapper">
             <h1 className="result__title">{label}</h1>
-            {/* {healthLabels.map((info, index) => {
-              return <span key={index} className="result__allergens">{info}</span>
-            })
-            } */}
           </div>
-          <div className="result__btn-wrapper">
-            {/* <button onClick={() => addToLike(recipeObj)}> {recipeObj.bookmarked ? "Liked" : "Like"} </button> */}
-            <button onClick={() => openModal(recipeObj.id)}>SEE</button>
-          </div>
+          <button className="result__btn-wrapper" onClick={() => openModal(recipeObj.id)}>SEE</button>
         </div>
       </div>
-      {isModal && <Chart isModal={isModal} modalObj={recipeObj} />}
     </div>
   )
 }

@@ -1,11 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import BcImg from '../../assets/img/bc.jpg';
 import Loader from "../loader/Loader";
-
 import { MyRecipesContext } from '../../context/MyRecipesContext';
-
-
-
 
 export default function Background() {
 
@@ -29,9 +25,8 @@ export default function Background() {
 
   return (
     <>
-      {bc()} {console.log(isLoading)}
+      {bc()}
       {isLoading && <Loader />}
     </>
   )
-
 }

@@ -1,5 +1,6 @@
 .liked {
   text-align: right;
+  z-index: 10;
 
   &__heart {
     cursor: pointer;
@@ -26,8 +27,8 @@
     top: 49px;
     right: 0;
     width: 400px;
-    background: #000000;
-    border: solid 1px;
+    background: #3d6647;
+    min-height: 50px;
 
     &:hover {
       display: block;
@@ -36,10 +37,10 @@
 
   &__item {
     display: flex;
-    padding: 10px 0;
-    display: flex;
     justify-content: space-between;
-    background: white;
+    align-items: center;
+    padding: 10px 0;
+    background: #96f7b2;
     margin: 2px 0;
     padding: 10px;
     transition: 0.5s;
@@ -47,16 +48,36 @@
 
     &:hover {
       transform: scale(0.98);
-      cursor: pointer;
       opacity: 1;
     }
 
     img {
       width: 50px;
     }
+  }
 
-    p {
-      margin-left: 21px;
+  &__name {
+    margin-left: 21px;
+    cursor: pointer;
+
+  }
+
+  &__remove {
+    border: none;
+    height: 28px;
+    border-radius: 7px;
+    background-color: #5c996b;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      transform: scale(0.9);
     }
+  }
+
+  &__empty {
+    color: white;
+    margin-right: 120px;
   }
 }

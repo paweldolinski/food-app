@@ -1,7 +1,10 @@
 .results {
+  margin: auto;
+
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
-
+    justify-content: center;
+    max-width: 1280px;
   }
 }

@@ -1,17 +1,41 @@
 .result {
-  margin: 10px auto;
+  margin: 10px;
   background: white;
   max-width: 300px;
+  transition: 0.3s;
+  border-radius: 10px;
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.5);
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
 
   &__img-wrapper {
     position: relative;
-
-    img {
-      min-height: 100%;
-    }
   }
 
-  &__heart {
+  &__img {
+    min-height: 100%;
+  }
+
+  &__vegeterian {
+    color: green;
+    position: absolute;
+    top: 10px;
+    padding: 5px 3px;
+    background: white;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+  }
+
+  &__heart-wrapper {
     position: absolute;
     top: 0;
     right: 10px;
@@ -22,13 +46,23 @@
     border-bottom-right-radius: 10px;
     opacity: 0.85;
 
-    img {
-      width: 100%;
+    &:hover {
+      opacity: 1;
     }
+  }
+
+  &__heart {
+    width: 100%;
+    cursor: pointer;
   }
 
   &__info {
     padding: 10px;
+    height: 142px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
   }
 
   &__title {
@@ -37,22 +71,22 @@
   }
 
   &__btn-wrapper {
-    display: flex;
-    justify-content: flex-end;
+    padding: 10px 50px;
+    font-size: 14px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #3d6647;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
 
-    button {
-      padding: 10px 50px;
-      font-size: 14px;
-      margin: 10px;
-      border-radius: 10px;
-      border: none;
-      background: black;
-      color: white;
-      cursor: pointer;
+    &:hover {
+      transform: scale(0.95);
+    }
 
-      &:focus {
-        outline: none;
-      }
+    &:focus {
+      outline: none;
     }
   }
 }
