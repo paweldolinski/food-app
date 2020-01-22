@@ -2,11 +2,12 @@ import React, { useContext } from 'react';
 import { MyRecipesContext } from '../../context/MyRecipesContext';
 import PieChart from 'react-minimal-pie-chart';
 import Close from '../../assets/img/cancel.png';
-
+import PropTypes from 'prop-types';
 
 export default function Modal() {
 
   const { closeModal, modalObj } = useContext(MyRecipesContext)
+
   const getNum = (num) => {
     const newNum = parseInt(num, 10)
     return newNum
@@ -86,4 +87,9 @@ export default function Modal() {
       </div>
     </div>
   )
+}
+
+Modal.propTypes = {
+  closeModal: PropTypes.func,
+  modalObj: PropTypes.array,
 }

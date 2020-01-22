@@ -17,7 +17,7 @@ export default function Results() {
   }
 
   return (
-    <div className="results">{console.log(data)}
+    <div className="results">
       <div className="results__wrapper">
         {data.map((recipe, index) => {
           return <Result {...recipe.recipe} recipeObj={recipe} bookmarked={recipe.bookmarked} key={index} id={recipe.id = uniqid()}
@@ -31,13 +31,7 @@ export default function Results() {
 }
 
 Results.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
+  isModal: PropTypes.bool,
+  recipeObj: PropTypes.object,
 }
-
-
-
-
-
-
-
-

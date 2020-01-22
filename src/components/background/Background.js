@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import BcImg from '../../assets/img/bc.jpg';
 import Loader from "../loader/Loader";
 import { MyRecipesContext } from '../../context/MyRecipesContext';
+import PropTypes from 'prop-types';
 
 export default function Background() {
 
@@ -29,4 +30,9 @@ export default function Background() {
       {isLoading && <Loader />}
     </>
   )
+}
+
+Background.propTypes = {
+  data: PropTypes.array,
+  isLoading: PropTypes.bool,
 }

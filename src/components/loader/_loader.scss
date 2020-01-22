@@ -2,16 +2,16 @@
   text-align: center;
   color: white;
   z-index: 100;
-  animation: rotation 2s infinite linear;
   width: 300px;
   height: 300px;
   margin: auto;
+  font-family: sans-serif;
 
   img {
     width: 100%;
+    animation: rotation 2s infinite linear;
   }
 }
-
 
 @keyframes rotation {
   from {

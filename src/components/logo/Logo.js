@@ -1,5 +1,5 @@
 import React from 'react';
-import Img from '../../assets/img/logo2.svg'
+import Img from '../../assets/img/logo2.svg';
 
 
 export default function Logo() {

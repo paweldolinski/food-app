@@ -34,4 +34,10 @@ export default function Result({ image, label, recipeObj, vegeterian }) {
 
 Result.propTypes = {
   addToLike: PropTypes.func,
+  openModal: PropTypes.func,
+  image: PropTypes.string,
+  label: PropTypes.string,
+  recipeObj: PropTypes.object,
+  vegeterian: PropTypes.bool,
+
 }

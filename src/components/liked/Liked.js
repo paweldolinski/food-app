@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Heart from '../heart/Heart'
 
 export default function Liked() {
-  const { likeArr, deleteLike, isModal, openModal } = useContext(MyRecipesContext);
+  const { likeArr, deleteLike, openModal } = useContext(MyRecipesContext);
 
   return (
     <div className="liked">
@@ -31,4 +31,5 @@ export default function Liked() {
 Liked.propTypes = {
   likeArr: PropTypes.array,
   deleteLike: PropTypes.func,
+  openModal: PropTypes.bool,
 }
