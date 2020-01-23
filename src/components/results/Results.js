@@ -11,8 +11,6 @@ export default function Results() {
   const isVegeterian = (recipe) => {
     if (recipe.recipe.healthLabels.indexOf("Vegetarian") > -1) {
       return recipe.vegeterian = true
-    } else {
-      return
     }
   }
 

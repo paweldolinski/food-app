@@ -22,7 +22,7 @@ export default function Background() {
 
   useEffect(() => {
     bc()
-  }, [data])
+  })
 
   return (
     <>
