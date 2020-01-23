@@ -14,7 +14,6 @@ export default function Header() {
           <Liked />
         </div>
       </div>
-
     </header>
   )
 } 
