@@ -28,8 +28,8 @@ export default function Results() {
     <div className="results">
       {data.length && <button className="results__sort-proteins-btn" onClick={sortByProteins}>Sort By Proteins</button>}
       <div className="results__wrapper">
-        {sortedArr.map(recipe => {
-          return <Result {...recipe.recipe} recipeObj={recipe} bookmarked={recipe.bookmarked} key={uniqid()}
+        {sortedArr.map((recipe, index) => {
+          return <Result {...recipe.recipe} recipeObj={recipe} bookmarked={recipe.bookmarked} key={index}
             id={recipe.id = uniqid()}
             vegeterian={isVegeterian(recipe)}
           />
