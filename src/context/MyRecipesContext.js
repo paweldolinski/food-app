@@ -35,12 +35,11 @@ export default function MyProvider(props) {
       obj.id = uniqid();
       setLikeArr([...likeArr, obj]);
     }
+
   }
 
   const deleteLike = (obj) => {
-    obj.bookmarked = false;
-    const newArr = likeArr.filter(item => item.id !== obj.id)
-    setLikeArr(newArr)
+    setLikeArr(likeArr.filter(item => item.id !== obj.id))
   }
 
   const openModal = (id) => {

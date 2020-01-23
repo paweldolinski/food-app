@@ -1,10 +1,35 @@
 .results {
   margin: auto;
 
+  &__sort-proteins-btn {
+    position: absolute;
+    left: 20px;
+    padding: 10px 50px;
+    border-radius: 4px;
+    border: none;
+    background: #ffffff;
+    color: #3d6647;
+    letter-spacing: 1px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    align-self: flex-end;
+
+    &:hover {
+      transform: scale(0.95);
+    }
+
+    &:focus {
+      outline: 1px black solid;
+    }
+  }
+
   &__wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     max-width: 1280px;
+    margin-top: 50px;
   }
+
 }

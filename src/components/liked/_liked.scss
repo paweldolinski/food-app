@@ -72,11 +72,12 @@
   &__remove {
     border: none;
     height: 28px;
+    padding: 5px 16px;
     border-radius: 4px;
     background-color: #5c996b;
     color: white;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.1s;
 
     &:hover {
       transform: scale(0.9);
