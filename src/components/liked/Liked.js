@@ -16,8 +16,10 @@ export default function Liked() {
           {likeArr.length ? likeArr.map((like) => {
             return (
               <div className="liked__item" key={like.id}>
-                <img className="liked__img" src={like.recipe.image} alt='/' />
-                <p onClick={() => openModal(like.id)} className="liked__name">{like.recipe.label}</p>
+                <div className="liked__item-wrapper-left">
+                  <img className="liked__img" src={like.recipe.image} alt='/' />
+                  <p onClick={() => openModal(like.id)} className="liked__name">{like.recipe.label}</p>
+                </div>
                 <button className="liked__remove" onClick={() => deleteLike(like)}> Remove </button>
               </div>
             )
