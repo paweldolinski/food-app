@@ -10,7 +10,7 @@ export default function MyProvider(props) {
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState('');
   const [likeArr, setLikeArr] = useState([]);
-  const [isModal, setIsModal] = useState(false)
+  const [isModal, setIsModal] = useState(false);
   const [modalObj, setModalObj] = useState({
     label: '',
     healthLabels: '',
@@ -42,6 +42,16 @@ export default function MyProvider(props) {
     setLikeArr(likeArr.filter(item => item.id !== obj.id))
   }
 
+  const sortByProteins = () => {
+    setData(data.slice().sort((a, b) => (a.proteins < b.proteins) ? 1 : -1))
+  }
+  const sortByCarbs = () => {
+    setData(data.slice().sort((a, b) => (a.carbs < b.carbs) ? 1 : -1))
+  }
+  const sortByFat = () => {
+    setData(data.slice().sort((a, b) => (a.fat < b.fat) ? 1 : -1))
+  }
+
   const openModal = (id) => {
     const item = data.filter(recipe => recipe.id === id)
     setModalObj({
@@ -64,7 +74,7 @@ export default function MyProvider(props) {
     const getRecipes = () => {
       const id = '9514057f'
       const key = "f72dc3e10937598d0f8a923a00094316"
-      const searchUrl = `https://api.edamam.com/search?q=${query}&app_id=${id}&app_key=${key}&count=100`;
+      const searchUrl = `https://api.edamam.com/search?q=${query}&app_id=${id}&app_key=${key}`;
       setIsLoading(true)
 
       fetch(searchUrl)
@@ -73,9 +83,19 @@ export default function MyProvider(props) {
           const getProteins = (recipe) => {
             return recipe.proteins = parseInt(recipe.recipe.totalNutrients.PROCNT.quantity, 10)
           }
+          const getCarbs = (recipe) => {
+            return recipe.carbs = parseInt(recipe.recipe.totalNutrients.CHOCDF.quantity, 10)
+          }
+          const getFat = (recipe) => {
+            return recipe.fat = parseInt(recipe.recipe.totalNutrients.FAT.quantity, 10)
+          }
 
           recipes.hits.map(item => {
-            return getProteins(item)
+            return (
+              getProteins(item),
+              getCarbs(item),
+              getFat(item)
+            )
           })
           setData(recipes.hits)
           setIsLoading(false)
@@ -86,7 +106,7 @@ export default function MyProvider(props) {
   }, [query])
 
   return (
-    <MyRecipesContext.Provider value={{ data, search, query, likeArr, isModal, modalObj, isLoading, onChange: onChange, onSubmit: onSubmit, addToLike: addToLike, deleteLike: deleteLike, openModal: openModal, closeModal: closeModal }}>
+    <MyRecipesContext.Provider value={{ data, search, query, likeArr, isModal, modalObj, isLoading, onChange: onChange, onSubmit: onSubmit, addToLike: addToLike, deleteLike: deleteLike, openModal: openModal, closeModal: closeModal, sortByProteins: sortByProteins, sortByCarbs: sortByCarbs, sortByFat: sortByFat }}>
       {props.children}
     </MyRecipesContext.Provider>
   )

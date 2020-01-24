@@ -26,7 +26,7 @@ export default function Background() {
 
   return (
     <>
-      {bc()}
+      <div className="background" />
       {isLoading && <Loader />}
     </>
   )

@@ -1,12 +1,13 @@
 .liked {
-  text-align: right;
   z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 
   &__heart {
     cursor: pointer;
     display: flex;
     align-items: baseline;
-    justify-content: flex-end;
 
     img {
       width: 50px;

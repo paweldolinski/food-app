@@ -10,8 +10,9 @@ function App() {
       <div className="app">
         <Header />
         <Results />
+        <Background />
       </div>
-      <Background />
+
     </MyRecipesContext>
 
   );

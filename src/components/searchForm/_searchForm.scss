@@ -16,25 +16,35 @@
     color: white;
     font-size: 16px;
     transition: box-shadow .3s ease-out;
-    text-align: center;
     cursor: pointer;
     padding: 4px;
-    transition: 0.3s;
+    opacity: 0.65;
+    transition: 0.2s all;
+
+    &:hover {
+      opacity: 1;
+    }
 
     &:focus {
       outline: none;
       box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.5);
       transform: scale(1.1);
-      transition: 0.3s;
+      transition: 0.2s;
     }
 
     &:focus::placeholder {
       color: transparent;
     }
+
+    &:focus+.search__icon {
+      transform: scale(1.1) rotate(-90deg);
+    }
   }
 
   &__icon {
-    width: 25px;
-    transform: rotate(-94deg);
+    margin-left: -20px;
+    width: 19px;
+    transform: rotate(-90deg);
+    transition: 0.2s;
   }
 }

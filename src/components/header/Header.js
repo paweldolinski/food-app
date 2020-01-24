@@ -1,7 +1,8 @@
 import React from 'react';
 import SearchField from '../searchForm/SearchForm';
-import Logo from '../logo/Logo'
-import Liked from '../liked/Liked'
+import Logo from '../logo/Logo';
+import Liked from '../liked/Liked';
+import Filter from '../filter/Filter'
 
 export default function Header() {
 
@@ -12,6 +13,7 @@ export default function Header() {
           <Logo />
           <SearchField />
           <Liked />
+          <Filter />
         </div>
       </div>
     </header>

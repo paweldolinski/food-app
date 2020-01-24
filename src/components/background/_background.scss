@@ -1,17 +1,9 @@
-.img {
-  position: absolute;
-  left: 0;
-  bottom: 0;
+.background {
+  background: linear-gradient(#1f3324, #5c996b);
+  position: fixed;
   top: 0;
+  left: 0;
   right: 0;
-  width: 100%;
+  bottom: 0;
   z-index: -1;
-
-  img {
-    position: fixed;
-    top: 0;
-    left: 0;
-    min-width: 100%;
-    min-height: 100%;
-  }
 }
