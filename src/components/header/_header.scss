@@ -1,10 +1,13 @@
 .header {
-  position: relative;
-  margin: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &__wrapper {
-    display: grid;
-    grid-template-columns: 20% 60% 20%;
-    grid-template-rows: 60px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 800px;
   }
+
 }

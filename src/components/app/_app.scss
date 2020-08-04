@@ -1,5 +1,8 @@
 .app {
+  margin: auto;
+  height: 100vh;
   display: grid;
-  font-family: sans-serif;
   grid-template-rows: 100px auto;
+  max-width: 1000px;
+
 }

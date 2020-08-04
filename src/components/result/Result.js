@@ -1,13 +1,22 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { MyRecipesContext } from '../../context/MyRecipesContext';
-import FullHeartIcon from '../../assets/img/heart-full.svg';
-import HeartIcon from '../../assets/img/heart.svg';
-
+import React, { useContext, useState } from "react";
+import PropTypes from "prop-types";
+import { MyRecipesContext } from "../../context/MyRecipesContext";
+import { UserContext } from "../../context/UserContext";
+import FullHeartIcon from "../../assets/img/heart-full.svg";
+import HeartIcon from "../../assets/img/heart.svg";
 
 export default function Result({ image, label, recipeObj, vegeterian }) {
+  const { openModal } = useContext(MyRecipesContext);
+  const { addToFavorite } = useContext(UserContext);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const { addToLike, openModal } = useContext(MyRecipesContext)
+  const displayLongLabel = () => {
+    setIsHovered(true);
+  };
+
+  const hide = () => {
+    setIsHovered(false);
+  };
 
   return (
     <div className="result">
@@ -18,18 +27,40 @@ export default function Result({ image, label, recipeObj, vegeterian }) {
             {vegeterian ? "Vegeterian" : null}
           </div>
           <div className="result__heart-wrapper">
-            <img className="result__heart" src={recipeObj.bookmarked ? FullHeartIcon : HeartIcon} onClick={() => addToLike(recipeObj)} alt="heart icon" />
+            <img
+              className="result__heart"
+              src={recipeObj.bookmarked ? FullHeartIcon : HeartIcon}
+              onClick={() => addToFavorite(recipeObj)}
+              alt="heart icon"
+            />
           </div>
         </div>
         <div className="result__info">
           <div className="result__labels-wrapper">
-            <h1 className="result__title">{label}</h1>
+            <h1
+              onMouseEnter={displayLongLabel}
+              onMouseLeave={hide}
+              className="result__title"
+            >
+              {label}
+            </h1>
+            {isHovered && (
+              <>
+                <span></span>
+                <p className="result__title-hovered">{label}</p>
+              </>
+            )}
           </div>
-          <button className="result__btn-wrapper" onClick={() => openModal(recipeObj.id)}>SEE</button>
+          <button
+            className="result__btn-wrapper"
+            onClick={() => openModal(recipeObj.id)}
+          >
+            SEE
+          </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 Result.propTypes = {
@@ -39,5 +70,4 @@ Result.propTypes = {
   label: PropTypes.string,
   recipeObj: PropTypes.object,
   vegeterian: PropTypes.bool,
-
-}
+};

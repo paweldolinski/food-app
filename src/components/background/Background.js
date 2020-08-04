@@ -1,38 +1,37 @@
-import React, { useContext, useEffect } from 'react';
-import BcImg from '../../assets/img/bc.jpg';
+import React, { useContext, useEffect } from "react";
+import BcImg from "../../assets/img/bc.jpg";
 import Loader from "../loader/Loader";
-import { MyRecipesContext } from '../../context/MyRecipesContext';
-import PropTypes from 'prop-types';
+import { MyRecipesContext } from "../../context/MyRecipesContext";
+import PropTypes from "prop-types";
 
 export default function Background() {
-
-  const { data, isLoading } = useContext(MyRecipesContext)
+  const { data, isLoading } = useContext(MyRecipesContext);
 
   const bc = () => {
-    if (!data.length) {
+    if (!data) {
       return (
         <div className="img">
           <img className="img__bc" src={BcImg} alt="pizza" />
         </div>
-      )
+      );
     } else {
-      return <div className="img" />
+      return <div className="img" />;
     }
-  }
+  };
 
   useEffect(() => {
-    bc()
-  })
+    bc();
+  });
 
   return (
     <>
       <div className="background" />
       {isLoading && <Loader />}
     </>
-  )
+  );
 }
 
 Background.propTypes = {
   data: PropTypes.array,
   isLoading: PropTypes.bool,
-}
+};
