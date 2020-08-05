@@ -21,7 +21,7 @@ export default function UserProvider(props) {
     e.preventDefault();
     setIsLoading(true);
 
-    fetch("http://localhost:4002/user/login", {
+    fetch("http://localhost:4000/user/login", {
       method: "POST",
       body: JSON.stringify({
         email: userObj.email,
@@ -32,10 +32,11 @@ export default function UserProvider(props) {
       },
     })
       .then((data) => data.json())
-      .then((res) => {
-        if (res.success) {
-          const { user, token } = res;
-          const { name, userId, likedArr } = user;
+      .then((json) => {
+        console.log(json);
+        const { user, token } = json;
+        const { name, userId, likedArr } = user;
+        if (json) {
           setInStorage("theMainApp", {
             user: {
               token,
@@ -43,13 +44,18 @@ export default function UserProvider(props) {
             },
           });
           setUserObj({ ...userObj, name, id: userId, likedArr });
-          setToken(res.token);
+          setToken(json.token);
           setMessage("");
           setIsLoading(false);
           setIsLoggedIn(true);
         } else {
-          setMessage(res.message);
+          setMessage(json.message);
+          setIsLoading(false);
+          setIsLoggedIn(false);
         }
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -68,15 +74,16 @@ export default function UserProvider(props) {
     setIsLoading(true);
     setToken(token);
     if (token) {
-      fetch(`/user/logout?token=${token}`, {
-        method: "GET",
+      fetch(`http://localhost:4000/user/logout`, {
+        method: "POST",
         headers: {
+          authorization: token,
           "Content-Type": "application/json",
         },
       })
         .then((data) => data.json())
         .then((json) => {
-          if (json.success) {
+          if (json) {
             setIsLoggedIn(false);
             setIsLoading(false);
             setInStorage("theMainApp", {
@@ -112,7 +119,7 @@ export default function UserProvider(props) {
       return recipe.dish.recipe.label === obj.recipe.label;
     });
     if (isLiked.length) return;
-    fetch("http://localhost:4002/user/addToFavorite", {
+    fetch("http://localhost:4000/user/addToFavorite", {
       method: "POST",
       body: JSON.stringify({
         dish: obj,
@@ -127,11 +134,10 @@ export default function UserProvider(props) {
       ...userObj,
       likedArr: userObj.likedArr.concat({ dish: obj, id: obj.id }),
     });
-    console.log(userObj.likedArr);
   };
 
   const removeFromFavorite = (id) => {
-    fetch("http://localhost:4002/user/removeFromFavorite", {
+    fetch("http://localhost:4000/user/removeFromFavorite", {
       method: "POST",
       body: JSON.stringify({
         dishId: id,
@@ -154,14 +160,18 @@ export default function UserProvider(props) {
     setToken(token);
     setIsLoading(true);
     if (token) {
-      fetch(`http://localhost:4002/user/verify?token=${token}`, {
-        method: "GET",
+      fetch(`http://localhost:4000/user/verify`, {
+        method: "POST",
+        headers: {
+          authorization: token,
+          "Content-Type": "application/json",
+        },
       })
         .then((res) => res.json())
         .then((json) => {
-          if (json.success) {
-            fetch("http://localhost:4002/user/user", {
-              method: "post",
+          if (json) {
+            fetch("http://localhost:4000/user/user", {
+              method: "POST",
               body: JSON.stringify({
                 userId,
               }),
@@ -193,7 +203,6 @@ export default function UserProvider(props) {
     } else {
       setIsLoading(false);
     }
-    // localStorage.removeItem("theMainApp");
   }, []);
 
   return (

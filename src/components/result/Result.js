@@ -19,21 +19,21 @@ export default function Result({ image, label, recipeObj, vegeterian }) {
   };
 
   return (
-    <div className="result">
+    <li className="result">
       <div className="result__wrapper">
         <div className="result__img-wrapper">
           <img className="results__img" src={image} alt={label} />
           <div className="result__vegeterian">
             {vegeterian ? "Vegeterian" : null}
           </div>
-          <div className="result__heart-wrapper">
+          <button className="result__heart-btn">
             <img
               className="result__heart"
               src={recipeObj.bookmarked ? FullHeartIcon : HeartIcon}
               onClick={() => addToFavorite(recipeObj)}
               alt="heart icon"
             />
-          </div>
+          </button>
         </div>
         <div className="result__info">
           <div className="result__labels-wrapper">
@@ -59,7 +59,7 @@ export default function Result({ image, label, recipeObj, vegeterian }) {
           </button>
         </div>
       </div>
-    </div>
+    </li>
   );
 }
 

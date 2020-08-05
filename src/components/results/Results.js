@@ -17,7 +17,7 @@ export default function Results() {
   return (
     <div className="results">
       <div className="container">
-        <div className="results__wrapper">
+        <ul className="results__wrapper">
           {data.map((recipe, index) => {
             return (
               <Result
@@ -30,7 +30,7 @@ export default function Results() {
               />
             );
           })}
-        </div>
+        </ul>
         {isModal && <Modal isModal={isModal} modalObj={recipeObj} />}
       </div>
     </div>

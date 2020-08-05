@@ -15,24 +15,26 @@ const SignIn = (props) => {
   } else {
     return (
       <>
-        <form onSubmit={onLoginHandler}>
-          <label>SIGNIN</label>
-          <br></br>
-          <input
-            type="text"
-            placeholder="email"
-            name="email"
-            onChange={onLoginChangeHandler}
-          />
-          <br />
-          <input
-            type="password"
-            placeholder="password"
-            name="password"
-            onChange={onLoginChangeHandler}
-          />
-          <br />
-          <button>LogIn</button>
+        <form className="login-form" onSubmit={onLoginHandler}>
+          <label className="login-form__label">
+            Email
+            <input
+              type="text"
+              placeholder="email"
+              name="email"
+              onChange={onLoginChangeHandler}
+            />
+          </label>
+          <label className="login-form__label">
+            Password
+            <input
+              type="password"
+              placeholder="password"
+              name="password"
+              onChange={onLoginChangeHandler}
+            />
+          </label>
+          <button>Login</button>
           {message}
         </form>
       </>

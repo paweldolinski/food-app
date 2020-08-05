@@ -6,7 +6,7 @@ const helmet = require("helmet");
 const env = require("dotenv").config();
 
 const isDev = process.env.NODE_ENV !== "production";
-const port = process.env.PORT || 4002;
+const port = process.env.PORT || 4000;
 
 mongoose.connect(
   isDev ? process.env.REACT_APP_DB_DEV : process.env.REACT_APP_DB,

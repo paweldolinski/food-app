@@ -11,17 +11,20 @@ export default function SearchForm() {
   return (
     <div className="search">
       <form onSubmit={onSubmit} className="search__form">
-        <input
-          className={
-            firstSearch
-              ? "search__input"
-              : "search__input search__input--middle"
-          }
-          placeholder="Search..."
-          value={search}
-          onChange={onChange}
-        />
-        <img className="search__icon" src={SearchIcon} alt="search" />
+        <label>
+          Search
+          <input
+            className={
+              firstSearch
+                ? "search__input"
+                : "search__input search__input--middle"
+            }
+            placeholder="Search..."
+            value={search}
+            onChange={onChange}
+          />
+          <img className="search__icon" src={SearchIcon} alt="search" />
+        </label>
       </form>
     </div>
   );

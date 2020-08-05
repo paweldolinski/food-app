@@ -18,7 +18,7 @@ const Signup = () => {
       setMessage("Passwords dont match!");
       return;
     }
-    fetch("http://localhost:4002/user/register", {
+    fetch("http://localhost:4000/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,10 +31,10 @@ const Signup = () => {
     })
       .then((data) => data.json())
       .then((res) => {
-        if (res.success) {
+        if (res) {
           setSuccess(true);
         } else {
-          setMessage(res.message);
+          setSuccess(false);
         }
       });
   };
@@ -54,36 +54,44 @@ const Signup = () => {
     return <Redirect to="/login" />;
   } else {
     return (
-      <form onSubmit={onSubmitHandler}>
-        <label>SIGNUP</label>
-        <br></br>
-        <input
-          type="email"
-          placeholder="email"
-          name="email"
-          onChange={onChangeHandler}
-        />{" "}
-        <input
-          type="text"
-          placeholder="name"
-          name="name"
-          onChange={onChangeHandler}
-        />{" "}
-        <br />
-        <input
-          type="password"
-          placeholder="password"
-          name="password"
-          onChange={onChangeHandler}
-        />{" "}
-        <br />
-        <input
-          type="password"
-          placeholder="confirm password"
-          name="confirmPassword"
-          onChange={onChangeHandler}
-        />{" "}
-        <br />
+      <form className="register-form" onSubmit={onSubmitHandler}>
+        <h2>SIGNUP</h2>
+        <label className="register-form__label">
+          Email
+          <input
+            type="email"
+            placeholder="email"
+            name="email"
+            onChange={onChangeHandler}
+          />
+        </label>
+        <label className="register-form__label">
+          Name
+          <input
+            type="text"
+            placeholder="name"
+            name="name"
+            onChange={onChangeHandler}
+          />
+        </label>
+        <label className="register-form__label">
+          Password
+          <input
+            type="password"
+            placeholder="password"
+            name="password"
+            onChange={onChangeHandler}
+          />
+        </label>
+        <label className="register-form__label">
+          Confirm password
+          <input
+            type="password"
+            placeholder="confirm password"
+            name="confirmPassword"
+            onChange={onChangeHandler}
+          />
+        </label>
         <button>Register</button>
         {message}
       </form>
