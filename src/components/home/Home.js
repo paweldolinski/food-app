@@ -1,15 +1,11 @@
 import React, { Component, useContext, useState, useEffect } from "react";
-import { UserContext } from "../../context/UserContext";
-import { MyRecipesContext } from "../../context/MyRecipesContext";
+
+import { RecipesContext } from "../../context/RecipesContext";
 import Search from "../searchForm/SearchForm";
 import Results from "../results/Results";
 
 const Home = (props) => {
-  const { firstSearch } = useContext(MyRecipesContext);
-
-  // if (isLoading) {
-  //   return <h1>LOADING... . . .</h1>;
-  // }
+  const { firstSearch } = useContext(RecipesContext);
   if (firstSearch) {
     return <Results />;
   }

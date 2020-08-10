@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
-export default function UserContainer() {
+const UserContainer = () => {
   const { userObj, logOut } = useContext(UserContext);
 
   return (
@@ -14,4 +14,6 @@ export default function UserContainer() {
       </div>
     </div>
   );
-}
+};
+
+export default UserContainer;

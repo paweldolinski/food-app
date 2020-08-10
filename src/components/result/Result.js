@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { MyRecipesContext } from "../../context/MyRecipesContext";
+import { RecipesContext } from "../../context/RecipesContext";
 import { UserContext } from "../../context/UserContext";
 import FullHeartIcon from "../../assets/img/heart-full.svg";
 import HeartIcon from "../../assets/img/heart.svg";
 
-export default function Result({ image, label, recipeObj, vegeterian }) {
-  const { openModal } = useContext(MyRecipesContext);
-  const { addToFavorite } = useContext(UserContext);
+const Result = ({ image, label, recipeObj, vegeterian, bookmarked }) => {
+  const { openModal } = useContext(RecipesContext);
+  const { addToFavorite, userObj } = useContext(UserContext);
+  const { likedArr } = userObj;
   const [isHovered, setIsHovered] = useState(false);
 
   const displayLongLabel = () => {
@@ -17,6 +18,11 @@ export default function Result({ image, label, recipeObj, vegeterian }) {
   const hide = () => {
     setIsHovered(false);
   };
+
+  const isLiked = () =>
+    likedArr
+      ? likedArr.map((item) => item.dish.recipe.label).includes(label)
+      : null;
 
   return (
     <li className="result">
@@ -29,8 +35,10 @@ export default function Result({ image, label, recipeObj, vegeterian }) {
           <button className="result__heart-btn">
             <img
               className="result__heart"
-              src={recipeObj.bookmarked ? FullHeartIcon : HeartIcon}
-              onClick={() => addToFavorite(recipeObj)}
+              src={isLiked() ? FullHeartIcon : HeartIcon}
+              onClick={() => {
+                addToFavorite(recipeObj);
+              }}
               alt="heart icon"
             />
           </button>
@@ -61,7 +69,7 @@ export default function Result({ image, label, recipeObj, vegeterian }) {
       </div>
     </li>
   );
-}
+};
 
 Result.propTypes = {
   addToLike: PropTypes.func,
@@ -71,3 +79,5 @@ Result.propTypes = {
   recipeObj: PropTypes.object,
   vegeterian: PropTypes.bool,
 };
+
+export default Result;

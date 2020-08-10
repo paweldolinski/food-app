@@ -1,10 +1,11 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import uniqid from "uniqid";
+import React, { createContext, useState, useEffect } from "react";
 
-export const MyRecipesContext = createContext();
+import { setInStorage, getFromStorage } from "../utils/localStorage";
 
-export default function MyProvider(props) {
-  const [data, setData] = useState([]);
+export const RecipesContext = createContext();
+
+const RecipesProvider = (props) => {
+  const [data, setData] = useState(getFromStorage("liked"));
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
@@ -28,15 +29,6 @@ export default function MyProvider(props) {
     setQuery(search);
     setFirstSearch(true);
   };
-
-  // const addToLike = (obj) => {
-  //   if (!obj.bookmarked) {
-  //     obj.bookmarked = true;
-  //     obj.id = uniqid();
-  //     setLikeArr([...likeArr, obj]);
-  //   }
-  //   console.log(obj);
-  // };
 
   const deleteLike = (obj) => {
     setLikeArr(likeArr.filter((item) => item.id !== obj.id));
@@ -68,53 +60,59 @@ export default function MyProvider(props) {
     setIsModal(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (e) => {
+    if (e.target.getAttribute("data-type") !== "close") return;
     document.body.classList.remove("modal-open");
     setIsModal(false);
   };
+  const getProteins = (recipe) => {
+    return (recipe.proteins = parseInt(
+      recipe.recipe.totalNutrients.PROCNT.quantity,
+      10
+    ));
+  };
+  const getCarbs = (recipe) => {
+    return (recipe.carbs = parseInt(
+      recipe.recipe.totalNutrients.CHOCDF.quantity,
+      10
+    ));
+  };
+  const getFat = (recipe) => {
+    return (recipe.fat = parseInt(
+      recipe.recipe.totalNutrients.FAT.quantity,
+      10
+    ));
+  };
 
   useEffect(() => {
-    const getRecipes = () => {
-      const id = process.env.REACT_APP_ID;
-      const key = process.env.REACT_APP_KEY;
+    const getRecipes = async () => {
+      const id = process.env.REACT_APP_API_ID;
+      const key = process.env.REACT_APP_API_KEY;
       const searchUrl = `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${query}&app_id=${id}&app_key=${key}`;
       setIsLoading(true);
-
-      fetch(searchUrl)
-        .then((response) => response.json())
-        .then((recipes) => {
-          const getProteins = (recipe) => {
-            return (recipe.proteins = parseInt(
-              recipe.recipe.totalNutrients.PROCNT.quantity,
-              10
-            ));
-          };
-          const getCarbs = (recipe) => {
-            return (recipe.carbs = parseInt(
-              recipe.recipe.totalNutrients.CHOCDF.quantity,
-              10
-            ));
-          };
-          const getFat = (recipe) => {
-            return (recipe.fat = parseInt(
-              recipe.recipe.totalNutrients.FAT.quantity,
-              10
-            ));
-          };
-          if (recipes.hits.length > 0) {
-            recipes.hits.map((item) => {
-              return getProteins(item), getCarbs(item), getFat(item);
-            });
-          }
-          setData(recipes.hits);
-          setIsLoading(false);
-        });
+      const response = fetch(searchUrl);
+      const data = await response;
+      const json = await data.json();
+      const { hits } = json;
+      try {
+        if (data.status === 200) {
+          hits.map((recipe) => {
+            return getProteins(recipe), getCarbs(recipe), getFat(recipe);
+          });
+          setInStorage("liked", hits);
+          // setData(hits);
+          // deleteFromStorage("liked");
+        }
+      } catch (err) {
+        console.log(err);
+      }
     };
-    getRecipes();
+    //getRecipes();
+    console.log(data);
   }, [query]);
 
   return (
-    <MyRecipesContext.Provider
+    <RecipesContext.Provider
       value={{
         data,
         search,
@@ -136,6 +134,8 @@ export default function MyProvider(props) {
       }}
     >
       {props.children}
-    </MyRecipesContext.Provider>
+    </RecipesContext.Provider>
   );
-}
+};
+
+export default RecipesProvider;

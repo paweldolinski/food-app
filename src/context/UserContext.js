@@ -4,7 +4,7 @@ import uniqid from "uniqid";
 
 export const UserContext = createContext();
 
-export default function UserProvider(props) {
+const UserProvider = (props) => {
   const [userObj, setUserObj] = useState({
     name: "",
     email: "",
@@ -15,48 +15,46 @@ export default function UserProvider(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState("");
 
-  const onLoginHandler = (e) => {
+  const onLoginHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    fetch("http://localhost:4000/user/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email: userObj.email,
-        password: userObj.password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((data) => data.json())
-      .then((json) => {
-        console.log(json);
+    try {
+      const response = fetch("http://localhost:4000/user/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: userObj.email,
+          password: userObj.password,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response;
+      const json = await data.json();
+      if (data.status === 200) {
         const { user, token } = json;
         const { name, userId, likedArr } = user;
-        if (json) {
-          setInStorage("theMainApp", {
-            user: {
-              token,
-              userId,
-            },
-          });
-          setUserObj({ ...userObj, name, id: userId, likedArr });
-          setToken(json.token);
-          setMessage("");
-          setIsLoading(false);
-          setIsLoggedIn(true);
-        } else {
-          setMessage(json.message);
-          setIsLoading(false);
-          setIsLoggedIn(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        setInStorage("theMainApp", {
+          user: {
+            token,
+            userId,
+          },
+        });
+        setUserObj({ ...userObj, name, id: userId, likedArr });
+        setMessage("");
+        setIsLoading(false);
+        setIsLoggedIn(true);
+      } else {
+        setMessage(json.message);
+        setIsLoading(false);
+        setIsLoggedIn(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const onLoginChangeHandler = (e) => {
@@ -66,143 +64,141 @@ export default function UserProvider(props) {
     });
   };
 
-  const logOut = () => {
+  const logOut = async () => {
     const getObj = getFromStorage("theMainApp");
     const { user } = getObj;
     const { token } = user;
     setIsLoggedIn(true);
     setIsLoading(true);
-    setToken(token);
-    if (token) {
-      fetch(`http://localhost:4000/user/logout`, {
-        method: "POST",
+
+    try {
+      const response = fetch(`http://localhost:4000/user/logout`, {
+        method: "GET",
         headers: {
           authorization: token,
           "Content-Type": "application/json",
         },
-      })
-        .then((data) => data.json())
-        .then((json) => {
-          if (json) {
-            setIsLoggedIn(false);
-            setIsLoading(false);
-            setInStorage("theMainApp", {
-              user: {
-                token: "",
-                userId: "",
-              },
-            });
-            setToken("");
-            setUserObj({
-              name: "",
-              email: "",
-              likedArr: "",
-              id: "",
-            });
-          } else {
-            setIsLoggedIn(true);
-            setInStorage("theMainApp", { user: { token: json.token } });
-          }
+      });
+      const data = await response;
+      const json = await data.json();
+      if (data.status === 200) {
+        setIsLoggedIn(false);
+        setIsLoading(false);
+        setInStorage("theMainApp", {
+          user: {
+            token: "",
+            userId: "",
+          },
         });
-    } else {
-      setIsLoggedIn(false);
+
+        setUserObj({
+          name: "",
+          email: "",
+          likedArr: [],
+          id: "",
+        });
+        setMessage(json.message);
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const addToFavorite = (obj) => {
-    console.log(obj, "addtofavirote clicked");
-    if (!obj.bookmarked) {
-      obj.bookmarked = true;
-      obj.id = uniqid();
-    }
-    let isLiked = userObj.likedArr.filter((recipe) => {
-      return recipe.dish.recipe.label === obj.recipe.label;
-    });
-    if (isLiked.length) return;
-    fetch("http://localhost:4000/user/addToFavorite", {
-      method: "POST",
-      body: JSON.stringify({
-        dish: obj,
-        id: userObj.id,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const addToFavorite = async (obj) => {
+    try {
+      if (!obj.bookmarked) {
+        obj.bookmarked = true;
+        obj.id = uniqid();
+      }
+      let isLiked = userObj.likedArr.filter((recipe) => {
+        return recipe.dish.recipe.label === obj.recipe.label;
+      });
+      if (isLiked.length) return;
 
-    setUserObj({
-      ...userObj,
-      likedArr: userObj.likedArr.concat({ dish: obj, id: obj.id }),
-    });
+      const response = fetch("http://localhost:4000/user/addToFavorite", {
+        method: "POST",
+        body: JSON.stringify({
+          dish: obj,
+          id: userObj.id,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response;
+      if (data.status === 200) {
+        setUserObj({
+          ...userObj,
+          likedArr: userObj.likedArr.concat({ dish: obj, id: obj.id }),
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const removeFromFavorite = (id) => {
-    fetch("http://localhost:4000/user/removeFromFavorite", {
-      method: "POST",
-      body: JSON.stringify({
-        dishId: id,
-        userId: userObj.id,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setUserObj({
-      ...userObj,
-      likedArr: userObj.likedArr.filter((recipe) => recipe.id !== id),
-    });
+  const removeFromFavorite = async (id) => {
+    try {
+      const response = fetch("http://localhost:4000/user/removeFromFavorite", {
+        method: "POST",
+        body: JSON.stringify({
+          dishId: id,
+          userId: userObj.id,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response;
+      if (data.status === 200) {
+        setUserObj({
+          ...userObj,
+          likedArr: userObj.likedArr.filter((recipe) => recipe.id !== id),
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
-    const getObj = getFromStorage("theMainApp");
-    const { user } = getObj;
-    const { token, userId } = user;
-    setToken(token);
-    setIsLoading(true);
-    if (token) {
-      fetch(`http://localhost:4000/user/verify`, {
-        method: "POST",
-        headers: {
-          authorization: token,
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          if (json) {
-            fetch("http://localhost:4000/user/user", {
-              method: "POST",
-              body: JSON.stringify({
-                userId,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-              .then((data) => data.json())
-              .then((res) => {
-                if (res) {
-                  const { user } = res;
-                  const { name, favoriteList, _id } = user[0];
-                  setUserObj({
-                    ...userObj,
-                    name,
-                    likedArr: favoriteList,
-                    id: _id,
-                  });
-                  setIsLoading(false);
-                }
-              });
-
-            setIsLoggedIn(true);
-          } else {
-            setIsLoggedIn(false);
-            console.log("noone is loggedin");
-          }
+    const verifyUser = async () => {
+      const getObj = getFromStorage("theMainApp");
+      const { user } = getObj;
+      const { token, userId } = user;
+      setIsLoading(true);
+      try {
+        const response = fetch(`http://localhost:4000/user/verify`, {
+          method: "POST",
+          headers: {
+            authorization: token,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId,
+          }),
         });
-    } else {
-      setIsLoading(false);
-    }
+
+        const data = await response;
+        const json = await data.json();
+        if (data.status === 200) {
+          const { name, likedArr, _id } = json.user[0];
+          setUserObj({
+            ...userObj,
+            name,
+            likedArr,
+            id: _id,
+          });
+          setIsLoggedIn(true);
+          setIsLoading(false);
+        }
+      } catch (err) {
+        console.log(err);
+        setIsLoggedIn(false);
+        setIsLoading(false);
+      }
+    };
+    verifyUser();
   }, []);
 
   return (
@@ -223,4 +219,5 @@ export default function UserProvider(props) {
       {props.children}
     </UserContext.Provider>
   );
-}
+};
+export default UserProvider;

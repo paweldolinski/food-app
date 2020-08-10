@@ -1,37 +1,37 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { MyRecipesContext } from "../../context/MyRecipesContext";
+import { RecipesContext } from "../../context/RecipesContext";
 import SearchIcon from "../../assets/img/search.svg";
-import { UserContext } from "../../context/UserContext";
 
-export default function SearchForm() {
+const SearchForm = () => {
   const { search, onChange, onSubmit, firstSearch } = useContext(
-    MyRecipesContext
+    RecipesContext
   );
   return (
     <div className="search">
       <form onSubmit={onSubmit} className="search__form">
-        <label>
-          Search
-          <input
-            className={
-              firstSearch
-                ? "search__input"
-                : "search__input search__input--middle"
-            }
-            placeholder="Search..."
-            value={search}
-            onChange={onChange}
-          />
-          <img className="search__icon" src={SearchIcon} alt="search" />
-        </label>
+        <input
+          className={
+            firstSearch
+              ? "search__input"
+              : "search__input search__input--middle"
+          }
+          value={search}
+          onChange={onChange}
+          id="search"
+          required
+        />
+        <img className="search__icon" src={SearchIcon} alt="search" />
+        <label htmlFor="search">Search</label>
       </form>
     </div>
   );
-}
+};
 
 SearchForm.propTypes = {
   search: PropTypes.string,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };
+
+export default SearchForm;

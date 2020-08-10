@@ -12,13 +12,14 @@ const Signup = () => {
   const [success, setSuccess] = useState(false);
   const { message, setMessage } = useContext(UserContext);
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (newUser.password !== newUser.confirmPassword) {
       setMessage("Passwords dont match!");
       return;
     }
-    fetch("http://localhost:4000/user/register", {
+
+    const response = fetch("http://localhost:4000/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,15 +29,16 @@ const Signup = () => {
         email: newUser.email,
         password: newUser.password,
       }),
-    })
-      .then((data) => data.json())
-      .then((res) => {
-        if (res) {
-          setSuccess(true);
-        } else {
-          setSuccess(false);
-        }
-      });
+    });
+    const data = await response;
+    const json = await data.json();
+    if (data.status === 200) {
+      setSuccess(true);
+      setMessage(json.message);
+    } else {
+      setSuccess(false);
+      setMessage(json.message);
+    }
   };
 
   const onChangeHandler = (e) => {

@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  favoriteList: {
+  likedArr: {
     type: Array,
     default: [],
   },

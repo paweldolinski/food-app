@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { MyRecipesContext } from "../../context/MyRecipesContext";
+import { RecipesContext } from "../../context/RecipesContext";
 import { UserContext } from "../../context/UserContext";
 import PropTypes from "prop-types";
 import Heart from "../heart/Heart";
 
-export default function Liked() {
-  const { deleteLike, openModal } = useContext(MyRecipesContext);
+const Liked = () => {
+  const { deleteLike, openModal } = useContext(RecipesContext);
   const { userObj, removeFromFavorite } = useContext(UserContext);
   const { likedArr } = userObj;
   const likedLength = () => {
@@ -56,10 +56,12 @@ export default function Liked() {
       </div>
     </div>
   );
-}
+};
 
 Liked.propTypes = {
   likedArr: PropTypes.array,
   deleteLike: PropTypes.func,
   openModal: PropTypes.bool,
 };
+
+export default Liked;

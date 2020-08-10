@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import { Redirect } from "react-router";
 
@@ -8,7 +8,12 @@ const SignIn = (props) => {
     onLoginChangeHandler,
     onLoginHandler,
     message,
+    setMessage,
   } = useContext(UserContext);
+
+  useEffect(() => {
+    setMessage("Please login");
+  }, []);
 
   if (isLoggedIn) {
     return <Redirect to="/" />;
@@ -35,7 +40,6 @@ const SignIn = (props) => {
             />
           </label>
           <button>Login</button>
-          {message}
         </form>
       </>
     );

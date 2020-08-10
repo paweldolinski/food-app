@@ -3,7 +3,8 @@ import heartFull from "../../assets/img/heart-full.svg";
 import heart from "../../assets/img/heart.svg";
 import PropTypes from "prop-types";
 
-export default function Heart({ likeList }) {
+const Heart = ({ likeList }) => {
+  console.log(likeList);
   return (
     <img
       className="heart"
@@ -11,8 +12,10 @@ export default function Heart({ likeList }) {
       alt="heart like"
     />
   );
-}
+};
 
 Heart.propTypes = {
   likeList: PropTypes.array,
 };
+
+export default Heart;

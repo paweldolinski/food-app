@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { MyRecipesContext } from "../../context/MyRecipesContext";
+import { RecipesContext } from "../../context/RecipesContext";
 import PieChart from "react-minimal-pie-chart";
 import Close from "../../assets/img/cancel.png";
 import PropTypes from "prop-types";
 
-export default function Modal() {
-  const { closeModal, modalObj } = useContext(MyRecipesContext);
+const Modal = () => {
+  const { closeModal, modalObj } = useContext(RecipesContext);
 
   const getNum = (num) => {
     const newNum = parseInt(num, 10);
@@ -13,13 +13,13 @@ export default function Modal() {
   };
 
   return (
-    <div className="modal">
+    <div className="modal" data-type="close" onClick={closeModal}>
       <div className="modal__wrapper">
         <img
           className="modal__close"
-          onClick={closeModal}
           src={Close}
           alt="close icon"
+          data-type="close"
         />
         <p className="modal__title">{modalObj.label}</p>
         <ul className="modal__healt-labels">
@@ -102,9 +102,11 @@ export default function Modal() {
       </div>
     </div>
   );
-}
+};
 
 Modal.propTypes = {
   closeModal: PropTypes.func,
   modalObj: PropTypes.array,
 };
+
+export default Modal;

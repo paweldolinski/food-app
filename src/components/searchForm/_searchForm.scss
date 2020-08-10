@@ -6,6 +6,7 @@
   &__form {
     display: flex;
     align-items: center;
+    position: relative;
   }
 
   &__input {
@@ -49,6 +50,22 @@
     &:focus+.search__icon {
       transform: scale(1.1) rotate(-90deg);
     }
+
+    &:focus~label {
+      transform: translateY(-24px);
+      transition: 0.3s;
+    }
+
+    &:valid~label {
+      transform: translateY(-24px);
+      transition: 0.3s;
+    }
+  }
+
+  label {
+    position: absolute;
+    transition: 0.3s;
+    transform: translateY(0px);
   }
 
   &__icon {

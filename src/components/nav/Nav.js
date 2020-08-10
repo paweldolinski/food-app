@@ -1,24 +1,48 @@
-import React, { useContext } from "react";
-import { MyRecipesContext } from "../../context/MyRecipesContext";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import btn from "../../assets/img/down-chevron.svg";
 
-import Register from "../register/Register";
-import Login from "../login/Login";
+const Nav = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-export default function Modal() {
   return (
-    <nav className="nav">
-      <Link className="nav__link" to="/register">
-        Register
-      </Link>{" "}
-      <br />
-      <Link className="nav__link" to="/login">
-        Login
-      </Link>{" "}
-      <br />
-      {/* <Link to="/">Home</Link>
-      <br />
-      <Link to="/results">Results</Link> */}
-    </nav>
+    <div className="nav">
+      <button className="nav__btn" onClick={() => setIsOpen(!isOpen)}>
+        <img
+          src={btn}
+          className={isOpen ? "nav__img--open nav__img" : "nav__img"}
+          alt="drop menu button"
+        />
+      </button>
+      <nav className="nav__nav">
+        <div
+          className={
+            isOpen
+              ? "nav__nav-wrapper nav__nav-wrapper--open"
+              : "nav__nav-wrapper"
+          }
+        >
+          <Link
+            className="nav__link"
+            onClick={() => setIsOpen(!isOpen)}
+            to="/register"
+          >
+            Register
+          </Link>{" "}
+          <Link
+            className="nav__link"
+            onClick={() => setIsOpen(!isOpen)}
+            to="/login"
+          >
+            Login
+          </Link>{" "}
+          <Link className="nav__link" onClick={() => setIsOpen(!isOpen)} to="/">
+            Results
+          </Link>{" "}
+        </div>
+      </nav>
+    </div>
   );
-}
+};
+
+export default Nav;

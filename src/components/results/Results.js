@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import { MyRecipesContext } from "../../context/MyRecipesContext";
+import { RecipesContext } from "../../context/RecipesContext";
 import PropTypes from "prop-types";
 import uniqid from "uniqid";
 import Result from "../result/Result";
 import Modal from "../modal/Modal";
 
-export default function Results() {
-  const { data, isModal, recipeObj } = useContext(MyRecipesContext);
+const Results = () => {
+  const { data, isModal, recipeObj } = useContext(RecipesContext);
 
   const isVegeterian = (recipe) => {
     if (recipe.recipe.healthLabels.indexOf("Vegetarian") > -1) {
@@ -35,10 +35,12 @@ export default function Results() {
       </div>
     </div>
   );
-}
+};
 
 Results.propTypes = {
   data: PropTypes.array,
   isModal: PropTypes.bool,
   recipeObj: PropTypes.object,
 };
+
+export default Results;

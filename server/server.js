@@ -8,16 +8,13 @@ const env = require("dotenv").config();
 const isDev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 4000;
 
-mongoose.connect(
-  isDev ? process.env.REACT_APP_DB_DEV : process.env.REACT_APP_DB,
-  (err) => {
-    if (!err) {
-      console.log("=====================MongoDB connected...");
-    } else {
-      console.log("=====================MongoDB connected FAILED", err);
-    }
+mongoose.connect(isDev ? process.env.DB_DEV : process.env.DB, (err) => {
+  if (!err) {
+    console.log("=====================MongoDB connected...");
+  } else {
+    console.log("=====================MongoDB connected FAILED", err);
   }
-);
+});
 
 const app = express();
 app.use(helmet());

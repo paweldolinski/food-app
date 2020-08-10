@@ -25,7 +25,7 @@
   &__items-wrapper {
     display: none;
     position: absolute;
-    top: 49px;
+    top: 70px;
     right: 0;
     width: 400px;
     background: #3d6647;
@@ -87,6 +87,8 @@
 
   &__empty {
     color: white;
-    margin-right: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
