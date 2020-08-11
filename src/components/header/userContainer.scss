@@ -1,0 +1,10 @@
+.user {
+  display: flex;
+  color: white;
+
+  &__logout {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+  }
+}

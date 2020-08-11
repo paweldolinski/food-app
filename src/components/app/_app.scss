@@ -1,5 +1,9 @@
 .app {
+  margin: auto;
+  height: 100vh;
   display: grid;
-  font-family: sans-serif;
-  grid-template-rows: 100px auto;
+  grid-template-rows: 100px 50px auto;
+  max-width: 1000px;
+  padding: 0 40px;
+
 }

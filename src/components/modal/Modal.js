@@ -1,35 +1,47 @@
-import React, { useContext } from 'react';
-import { MyRecipesContext } from '../../context/MyRecipesContext';
-import PieChart from 'react-minimal-pie-chart';
-import Close from '../../assets/img/cancel.png';
-import PropTypes from 'prop-types';
+import React, { useContext } from "react";
+import { RecipesContext } from "../../context/RecipesContext";
+import PieChart from "react-minimal-pie-chart";
+import Close from "../../assets/img/cancel.png";
+import PropTypes from "prop-types";
 
-export default function Modal() {
-
-  const { closeModal, modalObj } = useContext(MyRecipesContext)
+const Modal = () => {
+  const { closeModal, modalObj } = useContext(RecipesContext);
 
   const getNum = (num) => {
-    const newNum = parseInt(num, 10)
-    return newNum
-  }
+    const newNum = parseInt(num, 10);
+    return newNum;
+  };
 
   return (
-    <div className="modal">
+    <div className="modal" data-type="close" onClick={closeModal}>
       <div className="modal__wrapper">
-        <img className="modal__close" onClick={closeModal} src={Close} alt="close icon" />
+        <img
+          className="modal__close"
+          src={Close}
+          alt="close icon"
+          data-type="close"
+        />
         <p className="modal__title">{modalObj.label}</p>
-        <div className="modal__healt-labels">
+        <ul className="modal__healt-labels">
           {modalObj.healthLabels.map((label, index) => {
-            return <div className="modal__label" key={index}>{label}</div>
+            return (
+              <li className="modal__label" key={index}>
+                {label}
+              </li>
+            );
           })}
-        </div>
+        </ul>
         <div className="modal__ingredients">
           <p>Ingredients :</p>
-          <div className="modal__ingredients-wrapper">
+          <ul className="modal__ingredients-wrapper">
             {modalObj.ingredients.map((ingredient, index) => {
-              return <div className="modal__ingredient" key={index}>- {ingredient}</div>
+              return (
+                <li className="modal__ingredient" key={index}>
+                  - {ingredient}
+                </li>
+              );
             })}
-          </div>
+          </ul>
         </div>
         <div className="modal__info-wrapper">
           <div className="modal__chart">
@@ -41,27 +53,27 @@ export default function Modal() {
               cy={50}
               data={[
                 {
-                  color: '#E38627',
+                  color: "#E38627",
                   title: modalObj.totalNutrients.FAT.label,
-                  value: getNum(modalObj.totalNutrients.FAT.quantity)
+                  value: getNum(modalObj.totalNutrients.FAT.quantity),
                 },
                 {
-                  color: '#C13C37',
+                  color: "#C13C37",
                   title: modalObj.totalNutrients.PROCNT.label,
                   value: getNum(modalObj.totalNutrients.PROCNT.quantity),
                 },
                 {
-                  color: '#6A2135',
+                  color: "#6A2135",
                   title: modalObj.totalNutrients.CHOCDF.label,
-                  value: getNum(modalObj.totalNutrients.PROCNT.quantity)
-                }
+                  value: getNum(modalObj.totalNutrients.PROCNT.quantity),
+                },
               ]}
               label
               labelPosition={50}
               labelStyle={{
-                fill: '#121212',
-                fontFamily: 'sans-serif',
-                fontSize: '5px'
+                fill: "#121212",
+                fontFamily: "sans-serif",
+                fontSize: "5px",
               }}
               lengthAngle={360}
               lineWidth={100}
@@ -72,24 +84,29 @@ export default function Modal() {
               radius={50}
               rounded={false}
               startAngle={0}
-              viewBoxSize={[
-                100,
-                100
-              ]}
+              viewBoxSize={[100, 100]}
             />
           </div>
           <div className="modal__info">
-            <div className='modal__protein-item'><span></span>Proteins</div>
-            <div className='modal__fat-item'><span></span>Fat</div>
-            <div className='modal__carbs-item'><span></span>Carbs</div>
+            <div className="modal__protein-item">
+              <span></span>Proteins
+            </div>
+            <div className="modal__fat-item">
+              <span></span>Fat
+            </div>
+            <div className="modal__carbs-item">
+              <span></span>Carbs
+            </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 Modal.propTypes = {
   closeModal: PropTypes.func,
   modalObj: PropTypes.array,
-}
+};
+
+export default Modal;

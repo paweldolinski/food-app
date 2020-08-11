@@ -1,21 +1,26 @@
-import React from 'react';
-import SearchField from '../searchForm/SearchForm';
-import Logo from '../logo/Logo';
-import Liked from '../liked/Liked';
-import Filter from '../filter/Filter'
+import React, { useContext } from "react";
+import Liked from "../liked/Liked";
+import { UserContext } from "../../context/UserContext";
+import { RecipesContext } from "../../context/RecipesContext";
 
-export default function Header() {
+import Nav from "../nav/Nav";
+import Search from "../searchForm/SearchForm";
+import UserContainer from "./UserContainer";
 
+const Header = () => {
+  const { isLoggedIn, message } = useContext(UserContext);
+  const { firstSearch } = useContext(RecipesContext);
   return (
-    <header className="header">
+    <header className={firstSearch ? "header header--top" : "header"}>
       <div className="container">
         <div className="header__wrapper">
-          <Logo />
-          <SearchField />
+          {isLoggedIn ? <UserContainer /> : <Nav />}
+          {firstSearch && <Search />}
           <Liked />
-          <Filter />
         </div>
       </div>
     </header>
-  )
-} 
+  );
+};
+
+export default Header;
