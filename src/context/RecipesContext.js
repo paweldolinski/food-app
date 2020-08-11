@@ -1,11 +1,15 @@
 import React, { createContext, useState, useEffect } from "react";
 
-import { setInStorage, getFromStorage } from "../utils/localStorage";
+import {
+  setInStorage,
+  getRecipesFromLS,
+  deleteFromStorage,
+} from "../utils/localStorage";
 
 export const RecipesContext = createContext();
 
 const RecipesProvider = (props) => {
-  const [data, setData] = useState(getFromStorage("liked"));
+  const [data, setData] = useState(getRecipesFromLS("list"));
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
@@ -85,6 +89,7 @@ const RecipesProvider = (props) => {
   };
 
   useEffect(() => {
+    console.log(data);
     const getRecipes = async () => {
       const id = process.env.REACT_APP_API_ID;
       const key = process.env.REACT_APP_API_KEY;
@@ -99,7 +104,7 @@ const RecipesProvider = (props) => {
           hits.map((recipe) => {
             return getProteins(recipe), getCarbs(recipe), getFat(recipe);
           });
-          setInStorage("liked", hits);
+          setInStorage("list", hits);
           // setData(hits);
           // deleteFromStorage("liked");
         }
@@ -107,7 +112,7 @@ const RecipesProvider = (props) => {
         console.log(err);
       }
     };
-    //getRecipes();
+    // getRecipes();
     console.log(data);
   }, [query]);
 

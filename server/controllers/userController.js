@@ -5,6 +5,12 @@ const { generateHash, validPassword, validateUser } = require("../model/utils");
 
 const makeNewUser = async (req, res, next) => {
   const { name, password, email } = req.body;
+  const user = req.body;
+  const validationResult = validateUser(user);
+
+  if (validationResult)
+    return res.status(400).json({ message: validationResult });
+
   try {
     const user = await User.findOne({ email: email });
     if (user) {
@@ -67,11 +73,10 @@ const loginUser = async (req, res, next) => {
 
 const verify = async (req, res, next) => {
   const { authorization } = req.headers;
-  const { userId } = req.body;
-
   try {
     const session = UserSession.findOne({ token: authorization });
     const data = await session;
+    const { userId } = data;
     const user = User.findOne({ _id: userId });
 
     if (!data) {

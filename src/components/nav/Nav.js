@@ -5,9 +5,16 @@ import btn from "../../assets/img/down-chevron.svg";
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="nav">
-      <button className="nav__btn" onClick={() => setIsOpen(!isOpen)}>
+      <button className="nav__btn" onClick={toggleMenu}>
         <img
           src={btn}
           className={isOpen ? "nav__img--open nav__img" : "nav__img"}
@@ -22,23 +29,15 @@ const Nav = () => {
               : "nav__nav-wrapper"
           }
         >
-          <Link
-            className="nav__link"
-            onClick={() => setIsOpen(!isOpen)}
-            to="/register"
-          >
+          <Link className="nav__link" onClick={closeMenu} to="/register">
             Register
-          </Link>{" "}
-          <Link
-            className="nav__link"
-            onClick={() => setIsOpen(!isOpen)}
-            to="/login"
-          >
+          </Link>
+          <Link className="nav__link" onClick={closeMenu} to="/login">
             Login
-          </Link>{" "}
-          <Link className="nav__link" onClick={() => setIsOpen(!isOpen)} to="/">
+          </Link>
+          <Link className="nav__link" onClick={closeMenu} to="/">
             Results
-          </Link>{" "}
+          </Link>
         </div>
       </nav>
     </div>

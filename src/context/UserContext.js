@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { getFromStorage, setInStorage } from "../utils/localStorage";
+import { setInStorage, getToken } from "../utils/localStorage";
 import uniqid from "uniqid";
 
 export const UserContext = createContext();
@@ -19,29 +19,24 @@ const UserProvider = (props) => {
   const onLoginHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
+    const options = {
+      method: "POST",
+      body: JSON.stringify({
+        email: userObj.email,
+        password: userObj.password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
     try {
-      const response = fetch("http://localhost:4000/user/login", {
-        method: "POST",
-        body: JSON.stringify({
-          email: userObj.email,
-          password: userObj.password,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response;
-      const json = await data.json();
-      if (data.status === 200) {
+      const response = await fetch("http://localhost:4000/user/login", options);
+      const json = await response.json();
+      if (response.status === 200) {
         const { user, token } = json;
         const { name, userId, likedArr } = user;
         setInStorage("theMainApp", {
-          user: {
-            token,
-            userId,
-          },
+          token,
         });
         setUserObj({ ...userObj, name, id: userId, likedArr });
         setMessage("");
@@ -65,30 +60,28 @@ const UserProvider = (props) => {
   };
 
   const logOut = async () => {
-    const getObj = getFromStorage("theMainApp");
-    const { user } = getObj;
-    const { token } = user;
+    const token = getToken();
     setIsLoggedIn(true);
     setIsLoading(true);
+    const options = {
+      method: "GET",
+      headers: {
+        authorization: token,
+        "Content-Type": "application/json",
+      },
+    };
 
     try {
-      const response = fetch(`http://localhost:4000/user/logout`, {
-        method: "GET",
-        headers: {
-          authorization: token,
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response;
-      const json = await data.json();
-      if (data.status === 200) {
+      const response = await fetch(
+        `http://localhost:4000/user/logout`,
+        options
+      );
+      const json = await response.json();
+      if (response) {
         setIsLoggedIn(false);
         setIsLoading(false);
         setInStorage("theMainApp", {
-          user: {
-            token: "",
-            userId: "",
-          },
+          token: "",
         });
 
         setUserObj({
@@ -163,9 +156,7 @@ const UserProvider = (props) => {
 
   useEffect(() => {
     const verifyUser = async () => {
-      const getObj = getFromStorage("theMainApp");
-      const { user } = getObj;
-      const { token, userId } = user;
+      const token = getToken();
       setIsLoading(true);
       try {
         const response = fetch(`http://localhost:4000/user/verify`, {
@@ -174,9 +165,6 @@ const UserProvider = (props) => {
             authorization: token,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            userId,
-          }),
         });
 
         const data = await response;

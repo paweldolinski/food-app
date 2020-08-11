@@ -1,14 +1,3 @@
-export function getFromStorage(key) {
-  if (!key) return null;
-  try {
-    const valueString = localStorage.getItem(key);
-    if (valueString) {
-      return JSON.parse(valueString);
-    }
-  } catch (err) {
-    return null;
-  }
-}
 export function setInStorage(key, obj) {
   if (!key) console.log("key is missing");
   try {
@@ -19,4 +8,19 @@ export function setInStorage(key, obj) {
 }
 export function deleteFromStorage(key) {
   localStorage.removeItem(key);
+}
+
+export function getToken() {
+  const getObj = JSON.parse(localStorage.getItem("theMainApp"));
+  if (getObj) {
+    const { token } = getObj;
+    return token;
+  }
+  return;
+}
+
+export function getRecipesFromLS() {
+  const getObj = JSON.parse(localStorage.getItem("list"));
+  if (getObj) return getObj;
+  return;
 }
