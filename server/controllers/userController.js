@@ -1,20 +1,22 @@
 const User = require("../model/UserSchema");
 const UserSession = require("../model/UserSessionSchema");
 const crypto = require("crypto");
+const { generateHash, validPassword, validateUser } = require("../model/utils");
 
 const makeNewUser = async (req, res, next) => {
   const { name, password, email } = req.body;
   try {
-    const user = await User.find({ email: email });
-    if (user.length) {
+    const user = await User.findOne({ email: email });
+    if (user) {
       return res
         .status(400)
         .json({ message: `User with ${email} exist already` });
     } else {
-      const newUser = new User();
-      newUser.email = email;
-      newUser.name = name;
-      newUser.password = newUser.generateHash(password);
+      const newUser = new User({
+        email,
+        name,
+        password: generateHash(password),
+      });
       await newUser.save();
       return res.status(200).json({ message: "User has been created" });
     }
@@ -24,47 +26,38 @@ const makeNewUser = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
-  const { password } = req.body;
-  let { email } = req.body;
+  const { password, email } = req.body;
+  const user = req.body;
+  const validationResult = validateUser(user);
 
-  if (!email) {
-    return res.status(400).json({
-      message: "Error: Email cannot be blank.",
-    });
-  }
-  if (!password) {
-    return res.status(400).json({
-      message: "Error: Password cannot be blank.",
-    });
-  }
+  if (validationResult)
+    return res.status(400).json({ message: validationResult });
 
   try {
-    const user = await User.find({ email: email });
-
-    if (user.length !== 1) {
+    const user = await User.findOne({ email: email });
+    if (!user || user === null) {
       return res.status(400).json({
         message: "Invalid user",
       });
     }
 
-    if (!user[0].validPassword(password)) {
+    if (!validPassword(password, user.password)) {
       return res.status(400).json({
         message: "Invalid password",
       });
     }
-
-    const userSession = new UserSession();
+    const { name, likedArr, _id } = user;
     const token = crypto.randomBytes(32).toString("hex");
-    userSession.userId = user[0]._id;
-    userSession.token = token;
+
+    const userSession = new UserSession({ userId: _id, token });
     await userSession.save();
     return res.status(200).json({
       message: "Valid login",
       token: token,
       user: {
-        name: user[0].name,
-        likedArr: user[0].likedArr,
-        userId: user[0]._id,
+        name,
+        likedArr,
+        userId: _id,
       },
     });
   } catch (err) {
@@ -77,11 +70,11 @@ const verify = async (req, res, next) => {
   const { userId } = req.body;
 
   try {
-    const sessions = UserSession.find({ token: authorization });
-    const data = await sessions;
-    const user = User.find({ _id: userId });
+    const session = UserSession.findOne({ token: authorization });
+    const data = await session;
+    const user = User.findOne({ _id: userId });
 
-    if (data.length !== 1) {
+    if (!data) {
       return res.status(400).json({
         message: "Error: Invalid token",
       });
@@ -98,10 +91,10 @@ const verify = async (req, res, next) => {
 const logout = async (req, res, next) => {
   const { authorization } = req.headers;
   try {
-    const user = UserSession.findOneAndDelete({
+    const session = UserSession.findOneAndDelete({
       token: authorization,
     });
-    if (user) {
+    if (session) {
       return res.status(200).json({
         message: "User succesfully logged out",
       });

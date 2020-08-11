@@ -182,7 +182,7 @@ const UserProvider = (props) => {
         const data = await response;
         const json = await data.json();
         if (data.status === 200) {
-          const { name, likedArr, _id } = json.user[0];
+          const { name, likedArr, _id } = json.user;
           setUserObj({
             ...userObj,
             name,
