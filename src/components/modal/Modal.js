@@ -6,8 +6,9 @@ import PropTypes from "prop-types";
 
 const Modal = () => {
   const { closeModal, modalObj } = useContext(RecipesContext);
-  const { label, healthLabels, ingredients } = modalObj;
-  const { FAT, PROCNT, CHOCDF } = modalObj.totalNutrients;
+  const { label, healthLabels, ingredients, totalNutrients } = modalObj;
+  const { FAT, PROCNT, CHOCDF } = totalNutrients;
+
   const getNum = (num) => {
     const newNum = parseInt(num, 10);
     return newNum;

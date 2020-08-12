@@ -48,11 +48,18 @@ const RecipesProvider = (props) => {
 
   const openModal = (id) => {
     const item = data.filter((recipe) => recipe.id === id);
+    const {
+      label,
+      totalNutrients,
+      healthLabels,
+      ingredientLines,
+    } = item[0].recipe;
+
     setModalObj({
-      label: item[0].recipe.label,
-      totalNutrients: item[0].recipe.totalNutrients,
-      healthLabels: item[0].recipe.healthLabels,
-      ingredients: item[0].recipe.ingredientLines,
+      label,
+      totalNutrients,
+      healthLabels,
+      ingredients: ingredientLines,
       yield: item[0].recipe.yield,
     });
     document.body.classList.add("modal-open");
@@ -64,24 +71,7 @@ const RecipesProvider = (props) => {
     document.body.classList.remove("modal-open");
     setIsModal(false);
   };
-  const getProteins = (recipe) => {
-    return (recipe.proteins = parseInt(
-      recipe.recipe.totalNutrients.PROCNT.quantity,
-      10
-    ));
-  };
-  const getCarbs = (recipe) => {
-    return (recipe.carbs = parseInt(
-      recipe.recipe.totalNutrients.CHOCDF.quantity,
-      10
-    ));
-  };
-  const getFat = (recipe) => {
-    return (recipe.fat = parseInt(
-      recipe.recipe.totalNutrients.FAT.quantity,
-      10
-    ));
-  };
+
   const getRecipes = async () => {
     const id = process.env.REACT_APP_API_ID;
     const key = process.env.REACT_APP_API_KEY;
@@ -92,19 +82,13 @@ const RecipesProvider = (props) => {
       const json = await response.json();
       const { hits } = json;
       if (response.status === 200) {
-        hits.map((recipe) => {
-          return getProteins(recipe), getCarbs(recipe), getFat(recipe);
-        });
-        // setInStorage("list", hits);
         setData(hits);
         setIsLoading(false);
         setIsBackground(false);
-        // deleteFromStorage("liked");
       }
     } catch (err) {
       console.log(err);
     }
-    console.log("fetching", data);
   };
 
   useEffect(() => {

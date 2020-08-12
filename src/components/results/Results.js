@@ -19,6 +19,8 @@ const Results = () => {
 
   return (
     <div className="results">
+      {" "}
+      {console.log(data)}
       <ul className="results__wrapper">
         {data.map((recipe, index) => {
           return (
