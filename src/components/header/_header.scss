@@ -2,11 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom: solid black 1px;
+  width: 100%;
 
   &__wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
   }
 
 }

@@ -12,7 +12,7 @@ const Home = (props) => {
   return (
     <div className="home">
       <div className="container">
-        <div className="home_main">
+        <div className="home__main">
           <h1>
             Welcome, please login or register new user or search your favorite
             dish.

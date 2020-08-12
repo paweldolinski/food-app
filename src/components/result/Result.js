@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { RecipesContext } from "../../context/RecipesContext";
 import { UserContext } from "../../context/UserContext";
@@ -6,18 +6,14 @@ import FullHeartIcon from "../../assets/img/heart-full.svg";
 import HeartIcon from "../../assets/img/heart.svg";
 
 const Result = ({ image, label, recipeObj, vegeterian, bookmarked }) => {
-  const { openModal } = useContext(RecipesContext);
+  const { openModal, setIsBackground } = useContext(RecipesContext);
   const { addToFavorite, userObj } = useContext(UserContext);
   const { likedArr } = userObj;
   const [isHovered, setIsHovered] = useState(false);
 
-  const displayLongLabel = () => {
-    setIsHovered(true);
-  };
+  const displayLongLabel = () => setIsHovered(true);
 
-  const hide = () => {
-    setIsHovered(false);
-  };
+  const hide = () => setIsHovered(false);
 
   const isLiked = () =>
     likedArr

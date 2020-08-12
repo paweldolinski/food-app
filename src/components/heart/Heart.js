@@ -4,7 +4,6 @@ import heart from "../../assets/img/heart.svg";
 import PropTypes from "prop-types";
 
 const Heart = ({ likeList }) => {
-  console.log(likeList);
   return (
     <img
       className="heart"

@@ -5,28 +5,20 @@ import { RecipesContext } from "../../context/RecipesContext";
 import PropTypes from "prop-types";
 
 const Background = () => {
-  const { data, isLoading } = useContext(RecipesContext);
-
-  const bc = () => {
-    if (!data) {
-      return (
-        <div className="img">
-          <img className="img__bc" src={BcImg} alt="pizza" />
-        </div>
-      );
-    } else {
-      return <div className="img" />;
-    }
-  };
-
-  useEffect(() => {
-    bc();
-  });
+  const { isLoading, isBackground } = useContext(RecipesContext);
 
   return (
     <>
-      <div className="background" />
-      {/* {isLoading && <Loader />} */}
+      <div className="background">
+        {isBackground ? (
+          <div className="img">
+            <img className="img__bc" src={BcImg} alt="pizza" />
+          </div>
+        ) : (
+          <div className="img" />
+        )}
+      </div>
+      {isLoading && <Loader />}
     </>
   );
 };

@@ -6,7 +6,8 @@ import PropTypes from "prop-types";
 
 const Modal = () => {
   const { closeModal, modalObj } = useContext(RecipesContext);
-
+  const { label, healthLabels, ingredients } = modalObj;
+  const { FAT, PROCNT, CHOCDF } = modalObj.totalNutrients;
   const getNum = (num) => {
     const newNum = parseInt(num, 10);
     return newNum;
@@ -21,9 +22,9 @@ const Modal = () => {
           alt="close icon"
           data-type="close"
         />
-        <p className="modal__title">{modalObj.label}</p>
+        <p className="modal__title">{label}</p>
         <ul className="modal__healt-labels">
-          {modalObj.healthLabels.map((label, index) => {
+          {healthLabels.map((label, index) => {
             return (
               <li className="modal__label" key={index}>
                 {label}
@@ -31,10 +32,11 @@ const Modal = () => {
             );
           })}
         </ul>
+        <p className="modal__yield">Suitable for {modalObj.yield} people</p>
         <div className="modal__ingredients">
           <p>Ingredients :</p>
           <ul className="modal__ingredients-wrapper">
-            {modalObj.ingredients.map((ingredient, index) => {
+            {ingredients.map((ingredient, index) => {
               return (
                 <li className="modal__ingredient" key={index}>
                   - {ingredient}
@@ -54,18 +56,18 @@ const Modal = () => {
               data={[
                 {
                   color: "#E38627",
-                  title: modalObj.totalNutrients.FAT.label,
-                  value: getNum(modalObj.totalNutrients.FAT.quantity),
+                  title: FAT.label,
+                  value: getNum(FAT.quantity),
                 },
                 {
                   color: "#C13C37",
-                  title: modalObj.totalNutrients.PROCNT.label,
-                  value: getNum(modalObj.totalNutrients.PROCNT.quantity),
+                  title: PROCNT.label,
+                  value: getNum(PROCNT.quantity),
                 },
                 {
                   color: "#6A2135",
-                  title: modalObj.totalNutrients.CHOCDF.label,
-                  value: getNum(modalObj.totalNutrients.PROCNT.quantity),
+                  title: CHOCDF.label,
+                  value: getNum(CHOCDF.quantity),
                 },
               ]}
               label

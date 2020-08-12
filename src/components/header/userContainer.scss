@@ -1,10 +1,29 @@
 .user {
   display: flex;
   color: white;
+  border-right: solid black 1px;
+  padding-right: 40px;
+  height: 100%;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
 
   &__logout {
     padding: 5px 10px;
     border-radius: 5px;
     border: none;
+    outline: transparent;
+    padding: 10px 20px;
+    background: #ff9b9b;
+    color: white;
+    transition: 0.3s;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(0.9);
+      transition: 0.3s;
+    }
   }
 }

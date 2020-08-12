@@ -9,8 +9,12 @@ import Login from "./components/login/Login";
 import Home from "./components/home/Home";
 import Results from "./components/results/Results";
 
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
+
 render(
-  <Router>
+  <Router hisotry={history}>
     <App>
       <Switch>
         <Route exact path="/" component={Home} />

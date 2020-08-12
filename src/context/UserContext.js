@@ -158,6 +158,7 @@ const UserProvider = (props) => {
     const verifyUser = async () => {
       const token = getToken();
       setIsLoading(true);
+      if (token === "") return;
       try {
         const response = fetch(`http://localhost:4000/user/verify`, {
           method: "POST",

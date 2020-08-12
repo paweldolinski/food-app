@@ -19,6 +19,7 @@ const SearchForm = () => {
           value={search}
           onChange={onChange}
           id="search"
+          placeholder="Search"
           required
         />
         <img className="search__icon" src={SearchIcon} alt="search" />

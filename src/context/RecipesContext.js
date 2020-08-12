@@ -1,15 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 
-import {
-  setInStorage,
-  getRecipesFromLS,
-  deleteFromStorage,
-} from "../utils/localStorage";
-
 export const RecipesContext = createContext();
 
 const RecipesProvider = (props) => {
-  const [data, setData] = useState(getRecipesFromLS("list"));
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
@@ -22,6 +16,7 @@ const RecipesProvider = (props) => {
     yield: "",
     totalNutrients: "",
   });
+  const [isBackground, setIsBackground] = useState(true);
   const [firstSearch, setFirstSearch] = useState(false);
 
   const onChange = (e) => {
@@ -87,33 +82,33 @@ const RecipesProvider = (props) => {
       10
     ));
   };
+  const getRecipes = async () => {
+    const id = process.env.REACT_APP_API_ID;
+    const key = process.env.REACT_APP_API_KEY;
+    const searchUrl = `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${query}&app_id=${id}&app_key=${key}`;
+    setIsLoading(true);
+    try {
+      const response = await fetch(searchUrl);
+      const json = await response.json();
+      const { hits } = json;
+      if (response.status === 200) {
+        hits.map((recipe) => {
+          return getProteins(recipe), getCarbs(recipe), getFat(recipe);
+        });
+        // setInStorage("list", hits);
+        setData(hits);
+        setIsLoading(false);
+        setIsBackground(false);
+        // deleteFromStorage("liked");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("fetching", data);
+  };
 
   useEffect(() => {
-    console.log(data);
-    const getRecipes = async () => {
-      const id = process.env.REACT_APP_API_ID;
-      const key = process.env.REACT_APP_API_KEY;
-      const searchUrl = `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${query}&app_id=${id}&app_key=${key}`;
-      setIsLoading(true);
-      const response = fetch(searchUrl);
-      const data = await response;
-      const json = await data.json();
-      const { hits } = json;
-      try {
-        if (data.status === 200) {
-          hits.map((recipe) => {
-            return getProteins(recipe), getCarbs(recipe), getFat(recipe);
-          });
-          setInStorage("list", hits);
-          // setData(hits);
-          // deleteFromStorage("liked");
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    // getRecipes();
-    console.log(data);
+    if (query) getRecipes();
   }, [query]);
 
   return (
@@ -127,6 +122,7 @@ const RecipesProvider = (props) => {
         modalObj,
         isLoading,
         firstSearch,
+        isBackground,
         onChange: onChange,
         onSubmit: onSubmit,
         deleteLike: deleteLike,
@@ -136,6 +132,7 @@ const RecipesProvider = (props) => {
         sortByCarbs: sortByCarbs,
         sortByFat: sortByFat,
         setFirstSearch: setFirstSearch,
+        setIsBackground,
       }}
     >
       {props.children}

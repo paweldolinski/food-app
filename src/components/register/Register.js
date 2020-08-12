@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Redirect } from "react-router";
 import { UserContext } from "../../context/UserContext";
+import { RecipesContext } from "../../context/RecipesContext";
 
 const Signup = () => {
   const [newUser, setNewUser] = useState({
@@ -10,7 +11,8 @@ const Signup = () => {
     confirmPassword: "",
   });
   const [success, setSuccess] = useState(false);
-  const { message, setMessage } = useContext(UserContext);
+  const { setMessage } = useContext(UserContext);
+  const { setIsBackground } = useContext(RecipesContext);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -50,6 +52,7 @@ const Signup = () => {
 
   useEffect(() => {
     setMessage("Register new user");
+    setIsBackground(true);
   }, []);
 
   if (success) {
@@ -95,7 +98,6 @@ const Signup = () => {
           />
         </label>
         <button>Register</button>
-        {message}
       </form>
     );
   }

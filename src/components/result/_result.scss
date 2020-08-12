@@ -5,16 +5,7 @@
   transition: 0.3s;
   border-radius: 10px;
   overflow: hidden;
-
-  // &:nth-child(3n +1) {
-  //   margin-left: 0;
-
-  // }
-
-  // &:nth-child(3n) {
-  //   margin-right: 0;
-
-  // }
+  border: solid #3d6647 3px;
 
   &:hover {
     transform: scale(1.05);

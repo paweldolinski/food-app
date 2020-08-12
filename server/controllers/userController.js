@@ -76,14 +76,14 @@ const verify = async (req, res, next) => {
   try {
     const session = UserSession.findOne({ token: authorization });
     const data = await session;
-    const { userId } = data;
-    const user = User.findOne({ _id: userId });
 
     if (!data) {
       return res.status(400).json({
         message: "Error: Invalid token",
       });
     }
+    const { userId } = data;
+    const user = User.findOne({ _id: userId });
     return res.status(200).json({
       message: "Valid token",
       user: await user,

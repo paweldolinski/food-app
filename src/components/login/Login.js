@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
+import { RecipesContext } from "../../context/RecipesContext";
 import { Redirect } from "react-router";
 
 const SignIn = (props) => {
@@ -7,12 +8,13 @@ const SignIn = (props) => {
     isLoggedIn,
     onLoginChangeHandler,
     onLoginHandler,
-    message,
     setMessage,
   } = useContext(UserContext);
 
+  const { setData, setIsBackground } = useContext(RecipesContext);
+
   useEffect(() => {
-    setMessage("Please login");
+    setIsBackground(true);
   }, []);
 
   if (isLoggedIn) {
