@@ -5,7 +5,6 @@
   align-items: center;
   border-left: solid black 1px;
   padding-left: 40px;
-  height: 100%;
 
   &__heart {
     cursor: pointer;
@@ -28,7 +27,7 @@
   &__items-wrapper {
     display: none;
     position: absolute;
-    top: 70px;
+    top: 100%;
     right: 0;
     width: 400px;
     background: #3d6647;

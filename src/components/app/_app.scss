@@ -1,7 +1,9 @@
 .app {
   margin: auto;
-  height: 100vh;
-  display: grid;
-  grid-template-rows: 75px 75px auto;
   color: black;
+
+  &__main {
+    min-height: calc(100vh - 76px);
+  }
+
 }

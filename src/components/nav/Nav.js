@@ -14,14 +14,14 @@ const Nav = () => {
 
   return (
     <div className="nav">
-      <button className="nav__btn" onClick={toggleMenu}>
-        <img
-          src={btn}
-          className={isOpen ? "nav__img--open nav__img" : "nav__img"}
-          alt="drop menu button"
-        />
-      </button>
       <nav className="nav__nav">
+        <button className="nav__btn" onClick={toggleMenu}>
+          <img
+            src={btn}
+            className={isOpen ? "nav__img--open nav__img" : "nav__img"}
+            alt="drop menu button"
+          />
+        </button>
         <div
           className={
             isOpen
@@ -36,7 +36,7 @@ const Nav = () => {
             Login
           </Link>
           <Link className="nav__link" onClick={closeMenu} to="/">
-            Results
+            Recipes
           </Link>
         </div>
       </nav>

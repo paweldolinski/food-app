@@ -32,6 +32,12 @@
     background: #3d6647;
     border: none;
     outline: transparent;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(0.95);
+      transition: 0.3s;
+    }
   }
 
 }

@@ -9,13 +9,13 @@ import UserContainer from "./UserContainer";
 
 const Header = () => {
   const { isLoggedIn, message } = useContext(UserContext);
-  const { firstSearch } = useContext(RecipesContext);
+  const { isFirstSearch } = useContext(RecipesContext);
   return (
-    <header className={firstSearch ? "header header--top" : "header"}>
+    <header className={isFirstSearch ? "header header--top" : "header"}>
       <div className="container">
         <div className="header__wrapper">
           {isLoggedIn ? <UserContainer /> : <Nav />}
-          {firstSearch && <Search />}
+          {isFirstSearch && <Search />}
           <Liked />
         </div>
       </div>

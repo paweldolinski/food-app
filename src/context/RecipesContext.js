@@ -17,7 +17,7 @@ const RecipesProvider = (props) => {
     totalNutrients: "",
   });
   const [isBackground, setIsBackground] = useState(true);
-  const [firstSearch, setFirstSearch] = useState(false);
+  const [isFirstSearch, setIsFirstSearch] = useState(false);
 
   const onChange = (e) => {
     setSearch(e.target.value);
@@ -26,7 +26,7 @@ const RecipesProvider = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     setQuery(search);
-    setFirstSearch(true);
+    setIsFirstSearch(true);
   };
 
   const deleteLike = (obj) => {
@@ -105,7 +105,7 @@ const RecipesProvider = (props) => {
         isModal,
         modalObj,
         isLoading,
-        firstSearch,
+        isFirstSearch,
         isBackground,
         onChange: onChange,
         onSubmit: onSubmit,
@@ -115,7 +115,7 @@ const RecipesProvider = (props) => {
         sortByProteins: sortByProteins,
         sortByCarbs: sortByCarbs,
         sortByFat: sortByFat,
-        setFirstSearch: setFirstSearch,
+        setIsFirstSearch: setIsFirstSearch,
         setIsBackground,
       }}
     >

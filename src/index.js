@@ -10,7 +10,6 @@ import Home from "./components/home/Home";
 import Results from "./components/results/Results";
 
 import { createBrowserHistory } from "history";
-
 const history = createBrowserHistory();
 
 render(

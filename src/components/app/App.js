@@ -11,9 +11,11 @@ const App = ({ children }) => {
       <RecipesContext>
         <div className="app">
           <Header />
-          <Message />
-          <Background />
-          {children}
+          <div className="app__main">
+            <Background />
+            <Message />
+            {children}
+          </div>
         </div>
       </RecipesContext>
     </UserContext>

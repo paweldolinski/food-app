@@ -15,6 +15,7 @@ const SignIn = (props) => {
 
   useEffect(() => {
     setIsBackground(true);
+    setMessage("Login");
   }, []);
 
   if (isLoggedIn) {

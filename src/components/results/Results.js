@@ -6,7 +6,7 @@ import Result from "../result/Result";
 import Modal from "../modal/Modal";
 
 const Results = () => {
-  const { data, isModal, recipeObj, setIsBackground } = useContext(
+  const { data, isModal, recipeObj, setIsBackground, setMessage } = useContext(
     RecipesContext
   );
   const isVegeterian = (recipe) => {
@@ -19,8 +19,6 @@ const Results = () => {
 
   return (
     <div className="results">
-      {" "}
-      {console.log(data)}
       <ul className="results__wrapper">
         {data.map((recipe, index) => {
           return (

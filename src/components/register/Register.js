@@ -16,10 +16,20 @@ const Signup = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    const pattern =
+      "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
+    if (!newUser.password.match(pattern)) {
+      setMessage(
+        "Password must contain minimum eight characters, at least one uppercase letter, one lowercase letter and one number and at least one special character,"
+      );
+      return;
+    }
     if (newUser.password !== newUser.confirmPassword) {
       setMessage("Passwords dont match!");
       return;
     }
+
+    // "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$"
 
     const response = fetch("http://localhost:4000/user/register", {
       method: "POST",

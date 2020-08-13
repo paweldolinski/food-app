@@ -1,12 +1,18 @@
-import React, { Component, useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import { UserContext } from "../../context/UserContext";
 
 import { RecipesContext } from "../../context/RecipesContext";
 import Search from "../searchForm/SearchForm";
 import Results from "../results/Results";
 
 const Home = (props) => {
-  const { firstSearch } = useContext(RecipesContext);
-  if (firstSearch) {
+  const { isFirstSearch } = useContext(RecipesContext);
+  const { setMessage } = useContext(UserContext);
+  useEffect(() => {
+    setMessage("Welcome");
+    if (isFirstSearch) setMessage("Recipes");
+  });
+  if (isFirstSearch) {
     return <Results />;
   }
   return (

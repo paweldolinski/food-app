@@ -4,15 +4,20 @@ import { RecipesContext } from "../../context/RecipesContext";
 import SearchIcon from "../../assets/img/search.svg";
 
 const SearchForm = () => {
-  const { search, onChange, onSubmit, firstSearch } = useContext(
+  const { search, onChange, onSubmit, isFirstSearch } = useContext(
     RecipesContext
   );
   return (
     <div className="search">
-      <form onSubmit={onSubmit} className="search__form">
+      <form
+        onSubmit={onSubmit}
+        className={
+          isFirstSearch ? "search__form" : "search__form search__form--middle"
+        }
+      >
         <input
           className={
-            firstSearch
+            isFirstSearch
               ? "search__input"
               : "search__input search__input--middle"
           }
