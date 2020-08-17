@@ -5,10 +5,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 const env = require("dotenv").config();
 
-const isDev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 4000;
 
-mongoose.connect(isDev ? process.env.DB_DEV : process.env.DB, (err) => {
+mongoose.connect(process.env.DB, (err) => {
   if (!err) {
     console.log("=====================MongoDB connected...");
   } else {
