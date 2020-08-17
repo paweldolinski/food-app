@@ -98,6 +98,10 @@ const UserProvider = (props) => {
   };
 
   const addToFavorite = async (obj) => {
+    if (!isLoggedIn) {
+      setMessage("Please login if you want to add recipe to favorite list");
+      return;
+    }
     try {
       if (!obj.bookmarked) {
         obj.bookmarked = true;

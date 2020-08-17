@@ -6,7 +6,7 @@ import Result from "../result/Result";
 import Modal from "../modal/Modal";
 
 const Results = () => {
-  const { data, isModal, recipeObj, setIsBackground, setMessage } = useContext(
+  const { data, isModal, recipeObj, setIsBackground } = useContext(
     RecipesContext
   );
   const isVegeterian = (recipe) => {
@@ -20,18 +20,16 @@ const Results = () => {
   return (
     <div className="results">
       <ul className="results__wrapper">
-        {data.map((recipe, index) => {
-          return (
-            <Result
-              {...recipe.recipe}
-              recipeObj={recipe}
-              bookmarked={recipe.bookmarked}
-              key={index}
-              id={(recipe.id = uniqid())}
-              vegeterian={isVegeterian(recipe)}
-            />
-          );
-        })}
+        {data.map((recipe, index) => (
+          <Result
+            {...recipe.recipe}
+            recipeObj={recipe}
+            bookmarked={recipe.bookmarked}
+            key={index}
+            id={(recipe.id = uniqid())}
+            vegeterian={isVegeterian(recipe)}
+          />
+        ))}
       </ul>
       {isModal && <Modal isModal={isModal} modalObj={recipeObj} />}
     </div>
