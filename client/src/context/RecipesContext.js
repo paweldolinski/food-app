@@ -75,6 +75,7 @@ const RecipesProvider = (props) => {
   const getRecipes = async () => {
     const id = process.env.REACT_APP_API_ID;
     const key = process.env.REACT_APP_API_KEY;
+    console.log("-------", process.env.REACT_APP_API_ID);
     const searchUrl = `https://cors-anywhere.herokuapp.com/https://api.edamam.com/search?q=${query}&app_id=${id}&app_key=${key}`;
     setIsLoading(true);
     try {
